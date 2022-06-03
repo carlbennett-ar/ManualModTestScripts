@@ -1,4 +1,3 @@
-
 function writereg($key, $name, $value){
     If  ( -Not ( Test-Path "Registry::$Key")){New-Item -Path "Registry::$Key" -ItemType RegistryKey -Force}
     Set-ItemProperty -path "Registry::$Key" -Name $name  -Value $value 
@@ -6,9 +5,12 @@ function writereg($key, $name, $value){
 }
 $mainExePath = "C:\Program Files\7-Zip\7zFM.exe"
 $installdir = "C:\Program Files\7-Zip\"
+$INSTALLDIRNoTrailingSlash = "C:\Program Files\7-Zip"
+
 #set registry keys
 writereg 'HKEY_LOCAL_MACHINE\Software\7-zip\cb' mainExePath $mainExePath
 writereg 'HKEY_LOCAL_MACHINE\Software\7-zip\cb' INSTALLDIR $installdir
+writereg 'HKEY_LOCAL_MACHINE\Software\7-zip\cb' INSTALLDIRNoTrailingSlash $INSTALLDIRNoTrailingSlash
 writereg 'HKEY_LOCAL_MACHINE\Software\7-zip\cb' Sys32 "C:\windows\system32\"
 
 #create shortcut
@@ -21,9 +23,10 @@ $Shortcut.Description = "7-zip shortcut including lots of paths"
 $Shortcut.Save()
 
 #inifile
-Set-Content -path ($installdir + "settings.ini") -Value "[section]`nmainExePath=$mainexepath`nINSTALLDIR=$installdir`nSys32=C:\windows\system32\" 
+Set-Content -path ($installdir + "settings.ini") -Value "[section]`nmainExePath=$mainexepath`nINSTALLDIR=$installdir`nSys32=C:\windows\system32\`nINSTALLDIRNoTrailingSlash=$INSTALLDIRNoTrailingSlash" 
 
 #environment var
 [Environment]::SetEnvironmentVariable('path', "$($env:Path);$installdir", 'Machine')
 [Environment]::SetEnvironmentVariable('installdir', $installdir, 'Machine')
+[Environment]::SetEnvironmentVariable('INSTALLDIRNoTrailingSlash', $INSTALLDIRNoTrailingSlash, 'Machine')
 [Environment]::SetEnvironmentVariable('mainExePath', $mainExePath, 'Machine')
