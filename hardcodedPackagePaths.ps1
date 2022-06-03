@@ -9,7 +9,7 @@ $installdir = "C:\Program Files\7-Zip\"
 #set registry keys
 writereg 'HKEY_LOCAL_MACHINE\Software\7-zip\cb' mainExePath $mainExePath
 writereg 'HKEY_LOCAL_MACHINE\Software\7-zip\cb' INSTALLDIR $installdir
-writereg 'HKEY_LOCAL_MACHINE\Software\7-zip\cb' Sys32 "C:\windows\system32"
+writereg 'HKEY_LOCAL_MACHINE\Software\7-zip\cb' Sys32 "C:\windows\system32\"
 
 #create shortcut
 $WshShell = New-Object -comObject WScript.Shell
@@ -19,3 +19,6 @@ $Shortcut.Arguments = """$installdir"""
 $Shortcut.WorkingDirectory = $installdir
 $Shortcut.Description = "7-zip shortcut including lots of paths"
 $Shortcut.Save()
+
+#inifile
+Set-Content -path ($installdir + "settings.ini") -Value "[section]`nmainExePath=$mainexepath`nINSTALLDIR=$installdir`nSys32=C:\windows\system32\" 
