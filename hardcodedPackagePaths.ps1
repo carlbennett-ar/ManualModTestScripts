@@ -22,3 +22,8 @@ $Shortcut.Save()
 
 #inifile
 Set-Content -path ($installdir + "settings.ini") -Value "[section]`nmainExePath=$mainexepath`nINSTALLDIR=$installdir`nSys32=C:\windows\system32\" 
+
+#environment var
+[Environment]::SetEnvironmentVariable('path', "$($env:Path);$installdir", 'Machine')
+[Environment]::SetEnvironmentVariable('installdir', $installdir, 'Machine')
+[Environment]::SetEnvironmentVariable('mainExePath', $mainExePath, 'Machine')
