@@ -6,4 +6,6 @@ $LocalAppDataSubDir = "$env:LOCALAPPDATA\LocalAppDataSubDir\"
 #environment vars
 [Environment]::SetEnvironmentVariable('path', "$($env:Path);$Documents", 'User')
 
-[Environment]::SetEnvironmentVariable('LocalAppDataSubDir', $LocalAppDataSubDir, 'User')
+@("$env:USERPROFILE\NewUserProfileSubDir\",  "$env:USERPROFILE\Documents\",  "$env:LOCALAPPDATA\LocalAppDataSubDir\", "$env:APPDATA\AppDataSubDir\") | ForEach-Object{
+    [Environment]::SetEnvironmentVariable((split-path $_ -leaf),  $_, 'User')
+}

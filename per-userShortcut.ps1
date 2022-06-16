@@ -1,12 +1,11 @@
-$NewUserProfileSubDir = "$env:USERPROFILE\NewUserProfileSubDir\"
-$Documents = "$env:USERPROFILE\Documents\"
-$LocalAppDataSubDir = "$env:LOCALAPPDATA\LocalAppDataSubDir\"
-
 #create shortcut
 $WshShell = New-Object -comObject WScript.Shell
-$Shortcut = $WshShell.CreateShortcut("$env:appdata\Microsoft\Windows\Start Menu\Programs\My AzCopy Shortcut.lnk")
-$Shortcut.TargetPath = $NewUserProfileSubDir
-$Shortcut.Arguments = """$Documents"""
-$Shortcut.WorkingDirectory = $Documents
-$Shortcut.Description = "AzCopy shortcut including lots of paths"
-$Shortcut.Save()
+
+@("$env:USERPROFILE\NewUserProfileSubDir\",  "$env:USERPROFILE\Documents\",  "$env:LOCALAPPDATA\LocalAppDataSubDir\", "$env:APPDATA\AppDataSubDir\") | ForEach-Object{
+    $Shortcut = $WshShell.CreateShortcut("$env:appdata\Microsoft\Windows\Start Menu\Programs\$(split-path $_ -leaf).lnk")
+    $Shortcut.TargetPath = $_
+    $Shortcut.Arguments = """$_"""
+    $Shortcut.WorkingDirectory = $_
+    $Shortcut.Description = "$name shortcut with itself as all arguments"
+    $Shortcut.Save()
+}

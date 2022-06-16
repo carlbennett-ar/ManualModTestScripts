@@ -1,8 +1,7 @@
-#per-user items
-$NewUserProfileSubDir = "$env:USERPROFILE\NewUserProfileSubDir\"
-$Documents = "$env:USERPROFILE\Documents\"
-$LocalAppDataSubDir = "$env:LOCALAPPDATA\LocalAppDataSubDir\"
-$AppDataSubDir = "$env:APPDATA\AppDataSubDir"
-
 #inifile
-Set-Content -path ("$env:APPDATA\AppDataSubDir\settings.ini") -Value "[section]`nAppDataSubDir=$AppDataSubDir`nLocalAppDataSubDir=$LocalAppDataSubDir`nMyDocsDir=$Documents`nNewUserProfileSubDir=$NewUserProfileSubDir" 
+$out = "[section]`n"
+@("$env:USERPROFILE\NewUserProfileSubDir\",  "$env:USERPROFILE\Documents\",  "$env:LOCALAPPDATA\LocalAppDataSubDir\", "$env:APPDATA\AppDataSubDir\") | ForEach-Object{
+    $out += "$(split-path $_ -leaf)=$_`n"
+}
+
+Set-Content -path ("$AppDataSubDir\settings.ini") -Value $out
