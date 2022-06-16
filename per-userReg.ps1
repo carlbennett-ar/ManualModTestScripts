@@ -3,12 +3,12 @@ function writereg($key, $name, $value){
     Set-ItemProperty -path "Registry::$Key" -Name $name  -Value $value 
 
 }
-$mainExePath = "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe"
-$installdir = "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\"
-$INSTALLDIRNoTrailingSlash = "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy"
+$NewUserProfileSubDir = "$env:USERPROFILE\NewUserProfileSubDir\"
+$Documents = "$env:USERPROFILE\Documents\"
+$LocalAppDataSubDir = "$env:LOCALAPPDATA\LocalAppDataSubDir\"
 
 #set registry keys
-writereg 'HKEY_CURRENT_USER\Software\AzCopy\cb' mainExePath $mainExePath
-writereg 'HKEY_CURRENT_USER\Software\AzCopy\cb' INSTALLDIR $installdir
-writereg 'HKEY_CURRENT_USER\Software\AzCopy\cb' INSTALLDIRNoTrailingSlash $INSTALLDIRNoTrailingSlash
+writereg 'HKEY_CURRENT_USER\Software\AzCopy\cb' mainExePath $NewUserProfileSubDir
+writereg 'HKEY_CURRENT_USER\Software\AzCopy\cb' INSTALLDIR $Documents
+writereg 'HKEY_CURRENT_USER\Software\AzCopy\cb' INSTALLDIRNoTrailingSlash $LocalAppDataSubDir
 writereg 'HKEY_CURRENT_USER\Software\AzCopy\cb' Sys32 "C:\windows\system32\"
